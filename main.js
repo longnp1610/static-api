@@ -2,7 +2,8 @@ const express = require("express");
 const app = express();
 const swaggerJsDoc = require("swagger-jsdoc");
 const swaggerUI = require("swagger-ui-express");
-const bodyParser = require("body-parser");
+require("dotenv").config();
+const PORT = process.env.PORT || 3131;
 
 const swaggerOptions = {
   swaggerDefinition: {
@@ -28,7 +29,7 @@ app.use("/api/docs", swaggerUI.serve, swaggerUI.setup(swaggerDocs, options));
 
 //Middleware for POST and PUT
 app.use(express.json());
-app.use(express.urlencoded({ extended: false }));
+app.use(express.urlencoded({ extended: true }));
 
 const ProductsRoute = require("./routes/ProductsRoute");
 ProductsRoute(app);
@@ -37,4 +38,4 @@ app.get("/", (req, res) => {
   res.send("hello");
 });
 
-app.listen(3131, () => console.log("Server running"));
+app.listen(PORT, () => console.log("Server running"));
